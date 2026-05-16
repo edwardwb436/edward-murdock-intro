@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edward Murdock — Intro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #060b14;
+    --bg-surface: #0b1120;
+    --card-bg: rgba(15, 23, 42, 0.65);
+    --card-border: rgba(71, 85, 105, 0.18);
+    --text-primary: #e8edf5;
+    --text-secondary: #8f9bb3;
+    --text-tertiary: #5c6a82;
+    --accent-blue: #5b9cf5;
+    --accent-purple: #a78bfa;
+    --accent-coral: #fb923c;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.35), 0 0 0 0.5px rgba(71,85,105,0.12);
+    --shadow-lg: 0 12px 48px rgba(0,0,0,0.45), 0 0 0 0.5px rgba(71,85,105,0.12);
+    --shadow-hover: 0 20px 64px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(99,118,156,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Ambient gradient background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(59, 130, 246, 0.07), transparent 60%),
+      radial-gradient(ellipse 60% 70% at 80% 50%, rgba(139, 92, 246, 0.05), transparent 60%),
+      radial-gradient(ellipse 50% 50% at 50% 90%, rgba(219, 39, 119, 0.04), transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle noise texture */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== Navigation ===== */
+  nav {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    max-width: calc(100vw - 2rem);
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid rgba(71, 85, 105, 0.18);
+    border-radius: 50px;
+    z-index: 1000;
+    padding: 0.55rem 1.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.3);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  nav.scrolled {
+    top: 0;
+    border-radius: 0 0 24px 24px;
+    background: rgba(11, 17, 32, 0.82);
+    box-shadow: 0 4px 36px rgba(0,0,0,0.5);
+    border-color: rgba(71, 85, 105, 0.25);
+  }
+
+  nav .logo {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #5b9cf5, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    white-space: nowrap;
+  }
+
+  nav ul { display: flex; list-style: none; gap: 1.5rem; }
+
+  nav a {
+    color: var(--text-tertiary);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: -0.01em;
+  }
+
+  nav a:hover { color: var(--accent-blue); }
+
+  /* ===== Hero ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 2rem 3rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-orb {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(130px);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  .hero-orb.top {
+    top: -150px;
+    right: -180px;
+    background: radial-gradient(circle, rgba(59,130,246,0.5), transparent);
+    animation: orbFloat 8s ease-in-out infinite;
+  }
+
+  .hero-orb.bottom {
+    bottom: -120px;
+    left: -180px;
+    background: radial-gradient(circle, rgba(139,92,246,0.4), transparent);
+    animation: orbFloat 10s ease-in-out infinite reverse;
+  }
+
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(20px, -20px) scale(1.05); }
+    66% { transform: translate(-15px, 15px) scale(0.95); }
+  }
+
+  /* Status indicator */
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.9rem;
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(71, 85, 105, 0.22);
+    border-radius: 50px;
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    margin-bottom: 2rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .status-dot .pulse {
+    width: 7px;
+    height: 7px;
+    background: #4ade80;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+  }
+
+  .status-dot .pulse::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: rgba(74, 222, 128, 0.3);
+    animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes ping {
+    0% { transform: scale(1); opacity: 1; }
+    75%, 100% { transform: scale(2.5); opacity: 0; }
+  }
+
+  .hero h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero h1 .en-name {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text-tertiary);
+    margin-bottom: 0.25rem;
+  }
+
+  .hero h1 .zh-name {
+    background: linear-gradient(150deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .hero .contact-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 0.88rem;
+    color: var(--text-tertiary);
+    margin-top: 2rem;
+    font-weight: 450;
+  }
+
+  .hero .contact-row span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.3s;
+  }
+
+  .hero .contact-row span:hover { color: var(--accent-blue); }
+
+  .hero .contact-row .icon {
+    width: 15px;
+    height: 15px;
+    opacity: 0.5;
+  }
+
+  /* ===== Sections ===== */
+  section {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-title {
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .section-title .accent-line {
+    width: 3px;
+    height: 24px;
+    background: linear-gradient(180deg, #5b9cf5, #a78bfa);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ===== About ===== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .about-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem;
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    opacity: 0;
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(91,156,245,0.07), transparent 45%);
+    transition: opacity 0.5s;
+  }
+
+  .about-card:hover::before { opacity: 1; }
+
+  .about-card:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(99, 118, 156, 0.3);
+  }
+
+  .about-card h3 {
+    font-size: 0.95rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+    background: linear-gradient(135deg, #60a5fa, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .about-card p {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    font-weight: 420;
+    line-height: 1.65;
+  }
+
+  /* ===== Education ===== */
+  .edu-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .edu-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(99, 118, 156, 0.3);
+    transform: translateY(-2px) scale(1.005);
+  }
+
+  .edu-card .edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .edu-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .edu-card .edu-date {
+    font-size: 0.82rem;
+    font-weight: 550;
+    color: var(--accent-blue);
+    background: rgba(91,156,245,0.08);
+    padding: 0.25rem 0.8rem;
+    border-radius: 50px;
+  }
+
+  .edu-card .edu-sub {
+    color: var(--text-tertiary);
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
+    font-weight: 450;
+  }
+
+  .edu-card .course-section {
+    margin-top: 1rem;
+  }
+
+  .edu-card .course-section h4 {
+    font-size: 0.8rem;
+    font-weight: 650;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+  }
+
+  .edu-card .course-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .edu-card .course-tags span {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 6px;
+    font-weight: 460;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .course-tags .major {
+    background: rgba(59,130,246,0.1);
+    color: #93bdf8;
+    border: 1px solid rgba(59,130,246,0.16);
+  }
+
+  .course-tags .cross {
+    background: rgba(139,92,246,0.1);
+    color: #b49ff7;
+    border: 1px solid rgba(139,92,246,0.16);
+  }
+
+  .edu-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+  }
+
+  .edu-stat {
+    background: rgba(15, 23, 42, 0.45);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 0.6rem 1rem;
+    text-align: center;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .edu-stat:hover {
+    transform: translateY(-2px);
+    border-color: rgba(91,156,245,0.3);
+    box-shadow: 0 0 20px rgba(59,130,246,0.08);
+  }
+
+  .edu-stat .val {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #60a5fa, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .edu-stat .lbl {
+    font-size: 0.72rem;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+
+  /* ===== Skills ===== */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .skill-category {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .skill-category:hover {
+    transform: translateY(-3px) scale(1.015);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(99, 118, 156, 0.3);
+  }
+
+  .skill-category h3 {
+    font-size: 0.88rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+
+  .skill-tag {
+    font-size: 0.8rem;
+    font-weight: 480;
+    padding: 0.3rem 0.75rem;
+    border-radius: 7px;
+    background: rgba(30, 41, 65, 0.5);
+    border: 1px solid rgba(71, 85, 105, 0.2);
+    color: var(--text-secondary);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .skill-tag:hover {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(91, 156, 245, 0.3);
+    color: #93bdf8;
+    transform: translateY(-1px);
+  }
+
+  /* ===== Projects ===== */
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project-card:hover {
+    transform: translateY(-3px) scale(1.008);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(99, 118, 156, 0.3);
+  }
+
+  .project-card .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .project-card h3 {
+    font-size: 1.05rem;
+    font-weight: 680;
+    letter-spacing: -0.02em;
+  }
+
+  .project-card .role {
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(91,156,245,0.08));
+    color: #a78bfa;
+    padding: 0.22rem 0.75rem;
+    border-radius: 50px;
+    white-space: nowrap;
+    border: 1px solid rgba(139,92,246,0.2);
+  }
+
+  .project-card .date {
+    font-size: 0.78rem;
+    color: #818cf8;
+    font-weight: 550;
+    margin-bottom: 0.6rem;
+  }
+
+  .project-card .overview {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    margin-bottom: 0.75rem;
+    font-weight: 430;
+    line-height: 1.7;
+  }
+
+  .project-card .responsibilities {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    list-style: none;
+    font-weight: 420;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .project-card .responsibilities li {
+    padding-left: 0.9rem;
+    position: relative;
+  }
+
+  .project-card .responsibilities li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 4px;
+    height: 4px;
+    background: #a78bfa;
+    border-radius: 50%;
+  }
+
+  .project-card .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .project-card .tech-stack span {
+    font-size: 0.74rem;
+    padding: 0.18rem 0.6rem;
+    border-radius: 5px;
+    background: rgba(71, 85, 105, 0.1);
+    color: var(--text-tertiary);
+    border: 1px solid var(--card-border);
+    font-weight: 460;
+    transition: all 0.3s;
+  }
+
+  .project-card .tech-stack span:hover {
+    background: rgba(91,156,245,0.08);
+    border-color: rgba(91,156,245,0.25);
+    color: #93bdf8;
+  }
+
+  /* ===== Honors ===== */
+  .honors-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .honor-item {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    gap: 1rem;
+  }
+
+  .honor-item:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(99, 118, 156, 0.3);
+  }
+
+  .honor-item .honor-info h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.1rem;
+  }
+
+  .honor-item .honor-date {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    font-weight: 450;
+  }
+
+  .honor-item .award-badge {
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .honor-item .award-badge:active { transform: scale(0.95); }
+
+  .award-gold {
+    background: linear-gradient(135deg, rgba(251,191,36,0.14), rgba(245,158,11,0.1));
+    color: #fbbf24;
+    border: 1px solid rgba(251,191,36,0.22);
+  }
+
+  .award-blue {
+    background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(99,102,241,0.08));
+    color: #60a5fa;
+    border: 1px solid rgba(59,130,246,0.2);
+  }
+
+  .award-teal {
+    background: linear-gradient(135deg, rgba(45,212,191,0.12), rgba(6,182,212,0.08));
+    color: #2dd4bf;
+    border: 1px solid rgba(45,212,191,0.2);
+  }
+
+  /* ===== Hobbies Gallery ===== */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .gallery-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #0f172a;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(99, 118, 156, 0.4);
+  }
+
+  .gallery-item:active { transform: scale(0.98); }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .gallery-item:hover img { transform: scale(1.06); }
+
+  .gallery-item .label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.4rem 0.9rem 0.8rem;
+    background: linear-gradient(transparent, rgba(6,11,20,0.7));
+    color: #e8edf5;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* ===== Lightbox ===== */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 11, 20, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .lightbox.active { display: flex; }
+
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 85vh;
+    border-radius: 12px;
+    object-fit: contain;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+
+  .lightbox .close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: #e8edf5;
+    font-size: 1.6rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: inherit;
+  }
+
+  .lightbox .close:hover { background: rgba(255,255,255,0.14); transform: scale(1.05); }
+  .lightbox .close:active { transform: scale(0.92); }
+
+  /* ===== Contact ===== */
+  #contact { text-align: center; padding-bottom: 2rem; }
+
+  #contact p {
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+    font-size: 0.92rem;
+    font-weight: 430;
+  }
+
+  #contact a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 520;
+    transition: all 0.3s;
+  }
+
+  #contact a:hover { color: var(--accent-purple); }
+
+  /* ===== Footer ===== */
+  footer {
+    text-align: center;
+    padding: 2.5rem 2rem;
+    color: var(--text-tertiary);
+    font-size: 0.78rem;
+    font-weight: 430;
+    letter-spacing: -0.01em;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== Fade-in ===== */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 768px) {
+    nav { border-radius: 36px; padding: 0.5rem 1.2rem; }
+    nav ul { gap: 0.8rem; }
+    nav a { font-size: 0.72rem; }
+    .hero h1 { font-size: 2.6rem; }
+    .hero h1 .en-name { font-size: 1.2rem; }
+    .hero .subtitle { font-size: 0.95rem; }
+    .about-grid { grid-template-columns: 1fr; }
+    .honors-list { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+    .skills-grid { grid-template-columns: 1fr; }
+    .project-card .project-header { flex-direction: column; }
+    section { padding: 4rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <div class="logo">Edward Murdock</div>
+  <ul>
+    <li><a href="#about">关于</a></li>
+    <li><a href="#education">教育</a></li>
+    <li><a href="#skills">技能</a></li>
+    <li><a href="#projects">项目</a></li>
+    <li><a href="#honors">荣誉</a></li>
+    <li><a href="#hobbies">爱好</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-orb top"></div>
+  <div class="hero-orb bottom"></div>
+
+  <div class="status-dot">
+    <span class="pulse"></span>
+    Crafting something new
+  </div>
+
+  <h1>
+    <span class="en-name">Edward Murdock</span>
+    <span class="zh-name">孟维彬</span>
+  </h1>
+  <p class="subtitle">
+    长安大学 · 汽车学院 · 智能车辆工程 · 大三在读<br>
+    专注于自动驾驶算法、深度强化学习与机器人系统
+  </p>
+  <div class="contact-row">
+    <span>
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      2878936628@qq.com
+    </span>
+    <span>
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      15204163816
+    </span>
+    <span>
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      陕西 · 西安
+    </span>
+  </div>
+</header>
+
+<!-- About -->
+<section id="about">
+  <h2 class="section-title"><span class="accent-line"></span>关于我</h2>
+  <div class="about-grid">
+    <div class="about-card fade-in">
+      <h3>专业素养</h3>
+      <p>学科融合传统车辆工程、计算机科学及控制领域。核心课程覆盖汽车理论、ROS 应用、车辆感知技术、人工智能算法等，打下牢固基础。均分 88.14/100，GPA 3.8/4.0。</p>
+    </div>
+    <div class="about-card fade-in">
+      <h3>算法编程能力</h3>
+      <p>熟练运用 Python、MATLAB、ROS 及 C 语言，具备深度强化学习（DQN）、机器学习及数据分析经验。能设计并优化算法模型，高效解决多类技术难题。</p>
+    </div>
+    <div class="about-card fade-in">
+      <h3>跨文化沟通</h3>
+      <p>英语能力突出，一次性通过 CET-4 / CET-6，雅思 7.0 分，德语 B1 水平。可无障碍阅读英文文献与学术论文，具备国际化学术交流能力。</p>
+    </div>
+    <div class="about-card fade-in">
+      <h3>个人兴趣</h3>
+      <p>热爱单板滑雪、攀岩、篮球、健身与摄影。单板滑雪让我在速度中感受自由，攀岩让我在挑战中磨练意志。始终保持对生活的热情与探索精神。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Education -->
+<section id="education">
+  <h2 class="section-title"><span class="accent-line"></span>教育背景</h2>
+  <div class="edu-card fade-in">
+    <div class="edu-header">
+      <h3>长安大学 · 智能车辆工程</h3>
+      <span class="edu-date">2023.09 – 2027.06 (预期)</span>
+    </div>
+    <div class="edu-sub">211 工程 · 双一流学科建设高校 | 汽车学院 | 本科</div>
+
+    <div class="course-section">
+      <h4>主修课程</h4>
+      <div class="course-tags">
+        <span class="major">高等数学</span><span class="major">线性代数</span><span class="major">概率论与数理统计</span>
+        <span class="major">Python 程序设计</span><span class="major">C 语言</span><span class="major">汽车理论</span>
+        <span class="major">机械设计</span><span class="major">智能车辆与移动机器人（含ROS应用）</span>
+        <span class="major">单片机与嵌入式系统原理</span><span class="major">车辆感知技术</span>
+        <span class="major">人工智能算法与大数据</span>
+      </div>
+    </div>
+
+    <div class="course-section">
+      <h4>跨专业选修</h4>
+      <div class="course-tags">
+        <span class="cross">复变函数与积分变换</span><span class="cross">电力电子技术</span>
+        <span class="cross">自动控制原理</span><span class="cross">现代控制理论</span>
+        <span class="cross">计算方法</span><span class="cross">流体力学</span>
+      </div>
+    </div>
+
+    <div class="edu-stats">
+      <div class="edu-stat">
+        <div class="val">88.14</div>
+        <div class="lbl">均分 / 100</div>
+      </div>
+      <div class="edu-stat">
+        <div class="val">3.8</div>
+        <div class="lbl">GPA / 4.0</div>
+      </div>
+      <div class="edu-stat">
+        <div class="val">7.0</div>
+        <div class="lbl">IELTS</div>
+      </div>
+      <div class="edu-stat">
+        <div class="val">B1</div>
+        <div class="lbl">德语</div>
+      </div>
+      <div class="edu-stat">
+        <div class="val">CET-4/6</div>
+        <div class="lbl">英语四六级</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <h2 class="section-title"><span class="accent-line"></span>专业技能</h2>
+  <div class="skills-grid">
+    <div class="skill-category fade-in">
+      <h3>编程语言与工具</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span><span class="skill-tag">MATLAB</span>
+        <span class="skill-tag">C 语言</span><span class="skill-tag">SQL</span>
+      </div>
+    </div>
+    <div class="skill-category fade-in">
+      <h3>自动驾驶与仿真</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">ROS / ROS2</span><span class="skill-tag">SUMO</span>
+        <span class="skill-tag">CarSim</span><span class="skill-tag">SLAM</span>
+        <span class="skill-tag">OpenCV</span>
+      </div>
+    </div>
+    <div class="skill-category fade-in">
+      <h3>人工智能与算法</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">机器学习</span><span class="skill-tag">深度强化学习 (DQN)</span>
+        <span class="skill-tag">路径规划 A*</span><span class="skill-tag">数据融合</span>
+        <span class="skill-tag">PID 控制</span>
+      </div>
+    </div>
+    <div class="skill-category fade-in">
+      <h3>工程设计与嵌入式</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">CAD</span><span class="skill-tag">SolidWorks</span>
+        <span class="skill-tag">单片机 (STC)</span>
+        <span class="skill-tag">PWM 控制</span>
+        <span class="skill-tag">串口 / Wi-Fi 通信</span>
+      </div>
+    </div>
+    <div class="skill-category fade-in">
+      <h3>语言能力</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">中文 (母语)</span>
+        <span class="skill-tag">英语 (IELTS 7.0)</span>
+        <span class="skill-tag">德语 B1</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <h2 class="section-title"><span class="accent-line"></span>项目经历</h2>
+
+  <div class="project-card fade-in">
+    <div class="project-header">
+      <h3>混合交通流条件下车辆匝道汇入决策控制算法研究</h3>
+      <span class="role">团队负责人</span>
+    </div>
+    <div class="date">2024.10 – 2024.12</div>
+    <p class="overview">
+      基于深度强化学习与机器学习融合原理，利用真实车辆交互数据驱动的 DQN-RF 混合算法，结合高速公路匝道场景仿真平台，实现了智能网联车辆在混合交通环境下类人化、安全高效的汇入决策控制。
+    </p>
+    <ul class="responsibilities">
+      <li>构建 SUMO 仿真环境并实现基于深度 Q 网络 (DQN) 的运动决策优化</li>
+      <li>处理多传感器轨迹数据，分析 ICV 与 HDV 的交互行为以提升决策准确度</li>
+    </ul>
+    <div class="tech-stack">
+      <span>Python</span><span>SUMO</span><span>DQN</span><span>Random Forest</span><span>Reinforcement Learning</span><span>Trajectory Data</span>
+    </div>
+  </div>
+
+  <div class="project-card fade-in">
+    <div class="project-header">
+      <h3>基于 ROS 的智能移动机器人导航与感知系统设计</h3>
+      <span class="role">团队负责人</span>
+    </div>
+    <div class="date">2025.04 – 2025.05</div>
+    <p class="overview">
+      基于视觉识别与 SLAM 定位原理，利用 ROS 框架与 A* 路径规划算法，结合 GMapping 构建的二维地图与自主导航模块，实现了机器人在复杂室内环境下的高效路径规划与精准定位。
+    </p>
+    <ul class="responsibilities">
+      <li>开发图像处理、循迹与颜色检测 ROS 功能包，采用 OpenCV 与 PID 控制实现稳定自主移动</li>
+      <li>集成 GMapping 完成 SLAM 定位，并在 LIMO 机器人平台上执行全自主导航任务</li>
+    </ul>
+    <div class="tech-stack">
+      <span>ROS</span><span>OpenCV</span><span>GMapping</span><span>SLAM</span><span>A* 算法</span><span>PID</span><span>LIMO Robot</span>
+    </div>
+  </div>
+
+  <div class="project-card fade-in">
+    <div class="project-header">
+      <h3>基于传感器融合与嵌入式控制的微型智能车</h3>
+      <span class="role">团队负责人</span>
+    </div>
+    <div class="date">2025.06 – 2025.07</div>
+    <p class="overview">
+      在 STC11F32XE 微控制器上实现嵌入式控制程序，完成自动启停、循迹、距离感应和自适应巡航功能。
+    </p>
+    <ul class="responsibilities">
+      <li>设计自适应速度控制算法，通过实时 PWM 调节在拥堵条件下维持安全距离</li>
+      <li>建立串口与 Wi-Fi 通信实现上位机远程控制及 20Hz 状态数据传输</li>
+    </ul>
+    <div class="tech-stack">
+      <span>STC11F32XE</span><span>嵌入式 C</span><span>PWM</span><span>传感器融合</span><span>UART/WiFi</span><span>自适应巡航</span>
+    </div>
+  </div>
+</section>
+
+<!-- Honors -->
+<section id="honors">
+  <h2 class="section-title"><span class="accent-line"></span>荣誉与竞赛</h2>
+  <div class="honors-list">
+    <div class="honor-item fade-in">
+      <div class="honor-info">
+        <h3>美国大学生数学建模竞赛 (MCM)</h3>
+        <div class="honor-date">2025.01 · 队长</div>
+      </div>
+      <span class="award-badge award-gold">国家级 H 奖</span>
+    </div>
+    <div class="honor-item fade-in">
+      <div class="honor-info">
+        <h3>长安大学数学建模竞赛</h3>
+        <div class="honor-date">2025.05 · 队长</div>
+      </div>
+      <span class="award-badge award-gold">校级一等奖</span>
+    </div>
+    <div class="honor-item fade-in">
+      <div class="honor-info">
+        <h3>全国大学生数学建模竞赛 (CUMCM)</h3>
+        <div class="honor-date">2025.09 · 建模手</div>
+      </div>
+      <span class="award-badge award-blue">结果待公布</span>
+    </div>
+    <div class="honor-item fade-in">
+      <div class="honor-info">
+        <h3>大学生创新创业训练计划项目</h3>
+        <div class="honor-date">2025</div>
+      </div>
+      <span class="award-badge award-gold">省级立项</span>
+    </div>
+    <div class="honor-item fade-in">
+      <div class="honor-info">
+        <h3>军训先进个人</h3>
+        <div class="honor-date">2023</div>
+      </div>
+      <span class="award-badge award-teal">校级</span>
+    </div>
+  </div>
+</section>
+
+<!-- Hobbies -->
+<section id="hobbies">
+  <h2 class="section-title"><span class="accent-line"></span>爱好与特长</h2>
+  <p style="color:var(--text-secondary);margin-bottom:2rem;max-width:680px;font-weight:430;line-height:1.75;">
+    在学术与工程项目之外，我热爱运动与探索世界。滑雪让我在速度中感受自由，攀岩让我在挑战中磨练专注力与意志力，篮球和健身则培养了团队协作与自律精神。这些运动不仅塑造了我的体魄，更影响了我在科研中面对困难时的韧性与心态。
+  </p>
+  <div class="gallery">
+    <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="images/ski-1.jpg" alt="单板滑雪" loading="lazy">
+      <div class="label">单板滑雪</div>
+    </div>
+    <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="images/ski-2.jpg" alt="单板滑雪" loading="lazy">
+      <div class="label">单板滑雪</div>
+    </div>
+    <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="images/ski-3.jpg" alt="单板滑雪" loading="lazy">
+      <div class="label">单板滑雪</div>
+    </div>
+    <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="images/basketball-1.jpg" alt="篮球" loading="lazy">
+      <div class="label">篮球</div>
+    </div>
+    <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="images/basketball-2.jpg" alt="篮球" loading="lazy">
+      <div class="label">篮球</div>
+    </div>
+    <div class="gallery-item fade-in" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="images/climb-1.jpg" alt="攀岩" loading="lazy">
+      <div class="label">攀岩</div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="close">&times;</button>
+  <img src="" alt="预览图片" id="lightboxImg">
+</div>
+
+<!-- Contact -->
+<section id="contact">
+  <h2 class="section-title" style="justify-content:center;"><span class="accent-line"></span>联系方式</h2>
+  <p>邮箱：<a href="mailto:2878936628@qq.com">2878936628@qq.com</a></p>
+  <p>电话：15204163816</p>
+  <p>地址：陕西 · 西安 · 长安大学汽车学院</p>
+</section>
+
+<footer>
+  &copy; 2025 Edward Murdock (孟维彬) · 长安大学 · 智能车辆工程
+</footer>
+
+<script>
+  function openLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightboxImg').src = src;
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    const lb = document.getElementById('lightbox');
+    lb.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
+
+  document.querySelectorAll('.about-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mouse-x', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+      card.style.setProperty('--mouse-y', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+    });
+  });
+</script>
+
+</body>
+</html>
